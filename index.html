@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: darkslategrey;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            animation: slideIn 1s ease-out;
+            margin-bottom: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin: 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background-color: #2d4373;
+        }
+
+        .nav-links .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-links .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #3b5998;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .nav-links .dropdown-content a {
+            color: yellow;
+            padding: 8px 12px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+        }
+
+        .nav-links .dropdown-content a:hover {
+            background-color: #2d4373;
+        }
+
+        .nav-links .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .slider {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .slide img {
+            width: 100%;
+            display: block;
+        }
+
+        .button-container {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #2d4373;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-container button:hover {
+            background-color: #1b2e50;
+        }
+
+        .button-container .text {
+            background: white;
+            padding: 5px 10px;
+            color: black;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .slide-circles {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .slide-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #fff;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .slide-circle.active {
+            background-color: #000;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 0 3px 3px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .intro {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .parent {
+            display: flex;
+            background-color: yellow;
+            flex-wrap: wrap;
+        }
+
+        .child {
+            flex-grow: 1;
+            margin: 5px;
+            text-align: center;
+        }
+
+        .world-map {
+            width: 100%;
+            height: 400px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        .country-circle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: red;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .country-circle:hover {
+            transform: scale(1.5);
+            background-color: orange;
+        }
+
+        .country-name {
+            position: absolute;
+            background-color: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            display: none;
+            pointer-events: none;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        footer .section {
+            flex: 1 1 200px;
+            margin: 10px;
+        }
+
+        footer .section h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        footer .section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        footer .section ul li {
+            margin-bottom: 5px;
+        }
+
+        footer .section ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer .section ul li a:hover {
+            color: yellow;
+        }
+
+        footer .icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        footer .icons a {
+            color: white;
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+
+        footer .icons a:hover {
+            color: yellow;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-links a {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+
+            .button-container {
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .slider {
+                max-width: 100%;
+            }
+
+            .intro {
+                padding: 20px 10px;
+            }
+
+            .world-map {
+                height: 300px;
+            }
+
+            .parent {
+                flex-direction: column;
+            }
+
+            .child {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 18px;
+                margin-bottom: 0;
+            }
+
+            .button-container button {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .button-container .text {
+                padding: 3px 8px;
+                font-size: 12px;
+            }
+
+            .intro {
+                padding: 10px 5px;
+            }
+
+            .world-map {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">CareerX Studios<br><span style="font-size: small;">photos of the wild</span></div>
+        <nav class="nav-links">
+            <div class="dropdown">
+                <a href="#home">HOME</a>
+            </div>
+            <div class="dropdown">
+                <a href="#gallery">GALLERY</a>
+            </div>
+            <div class="dropdown">
+                <a href="#blog">BLOG</a>
+                <div class="dropdown-content">
+                    <a href="#create">CREATE</a>
+                    <a href="#watch">WATCH</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#donate">DONATE</a>
+                <div class="dropdown-content">
+                    <a href="#donate-today">DONATE TODAY</a>
+                    <a href="#donate-monthly">DONATE MONTHLY</a>
+                    <a href="#see-donations">SEE DONATIONS</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#store">STORE</a>
+                <div class="dropdown-content">
+                    <a href="#locations">LOCATIONS</a>
+                    <a href="#places">PLACES</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#cards">CARDS</a>
+                <div class="dropdown-content">
+                    <a href="#locations">LOCATIONS</a>
+                    <a href="#places">PLACES</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="slider">
+        <div class="slides">
+            <div class="slide">
+                <img src="images/download.jpeg" alt="Image 1">
+                <div class="button-container">
+                    <div class="text">About Photography</div>
+                    <button onclick="location.href='#learn-more'">Learn More</button>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/images (2).jpeg" alt="Image 2">
+                <div class="button-container">
+                    <div class="text">Kidz Cards</div>
+                    <button onclick="location.href='#shop-now'">Shop Now</button>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="images/images (3).jpeg" alt="Image 3">
+            </div>
+        </div>
+        <div class="slide-circles"></div>
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+    
+    <section class="intro">
+        <h2>What is CAREERX STUDIOS?</h2>
+        <p>The goal of Wild Boyz Photography is to provide nature education through photography and stories. We will be publishing albums each month focusing on a specific theme. We invite you to download the images for your personal use. Feel free to have them printed! What we ask for in return is a donation. 75% of all donated funds in any given month will go to that month's featured non-profit. Do you want to learn more? Read about our mission.</p>
+    </section>
+    <div class="parent">
+        <div class="child"><h1>HOW CAN <br>YOU HELP</h1></div>
+        <div class="child"><h2>Donate</h2> </div>
+        <div class="child"><h2>Submit your photo</h2></div>
+        <div class="child"><h2>Share the page</h2></div>
+    </div>
+
+    <div class="world-map">
+        <div class="country-circle" style="top: 50%; left: 30%;" data-country="Country 1"></div>
+        <div class="country-circle" style="top: 55%; left: 50%;" data-country="Country 2"></div>
+        <div class="country-circle" style="top: 40%; left: 70%;" data-country="Country 3"></div>
+        <div class="country-name" id="countryName"></div>
+    </div>
+    
+    <footer>
+        <div class="section">
+            <h3>WHO WE ARE</h3>
+            <ul>
+                <li><a href="#our-team">OUR TEAM</a></li>
+                <li><a href="#printing-partners">PRINTING PARTNERS</a></li>
+                <li><a href="#partners">PARTNERS</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+                <li><a href="#store">STORE</a></li>
+            </ul>
+        </div>
+        <div class="section">
+            <h3>WHAT WE DO</h3>
+            <ul>
+                <li><a href="#gallery">GALLERY</a></li>
+                <li><a href="#giving-tuesday">GIVING TUESDAY 2023</a></li>
+                <li><a href="#donate">DONATE</a></li>
+                <li><a href="#get-involved">GET INVOLVED</a></li>
+                <li><a href="#blog">BLOG</a></li>
+                <li><a href="#our-mission">OUR MISSION</a></li>
+            </ul>
+        </div>
+        <div class="icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p>&copy; 2024 Your Website</p>
+    </footer>
+
+    <script>
+        let slideIndex = 1;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlides(n) {
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            slides.forEach((slide, index) => {
+                slide.style.display = (index === slideIndex - 1) ? 'block' : 'none';
+            });
+        }
+
+        function changeSlide(n) {
+            showSlides(slideIndex += n);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlides(slideIndex);
+
+            const circles = document.querySelectorAll('.country-circle');
+            const countryNameDiv = document.getElementById('countryName');
+
+            circles.forEach(circle => {
+                circle.addEventListener('mouseover', (e) => {
+                    const countryName = e.target.dataset.country;
+                    countryNameDiv.innerText = countryName;
+                    countryNameDiv.style.display = 'block';
+                    countryNameDiv.style.top = `${e.clientY + 15}px`;
+                    countryNameDiv.style.left = `${e.clientX + 15}px`;
+                });
+
+                circle.addEventListener('mouseout', () => {
+                    countryNameDiv.style.display = 'none';
+                });
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (countryNameDiv.style.display === 'block') {
+                    countryNameDiv.style.top = `${e.clientY + 15}px`;
+                    countryNameDiv.style.left = `${e.clientX + 15}px`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
