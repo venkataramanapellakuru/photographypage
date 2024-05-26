@@ -233,6 +233,42 @@
             pointer-events: none;
         }
 
+        .feedback-form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 600px;
+            margin: 40px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-form h3 {
+            margin-bottom: 20px;
+        }
+
+        .feedback-form input,
+        .feedback-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .feedback-form button {
+            padding: 10px 20px;
+            background-color: #2d4373;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .feedback-form button:hover {
+            background-color: #1b2e50;
+        }
+
         footer {
             background-color: #333;
             color: white;
@@ -458,6 +494,21 @@
         <div class="country-circle" style="top: 40%; left: 70%;" data-country="Country 3"></div>
         <div class="country-name" id="countryName"></div>
     </div>
+
+    <section id="user-friendly">
+        <div class="feedback-form">
+            <h3>Give Us Your Feedback</h3>
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Your Email">
+            <textarea placeholder="Your Feedback"></textarea>
+            <button type="submit">Submit</button>
+        </div>
+    </section>
+    
+    <section id="client-accounts" class="intro">
+        <h2>Client Accounts</h2>
+        <p>Create an account to book sessions, order prints, and manage your gallery. <a href="#sign-up">Sign Up</a> or <a href="#login">Login</a> to get started.</p>
+    </section>
     
     <footer>
         <div class="section">
